@@ -84,11 +84,11 @@ for j = 1:T
         xOutput(2)=U2(2);
         %RL for the first element of the output
         e1 = (1/2)*((tTarget(1))-Z(1)*y(1))^2;
-        r1= max(0,(rewardThreshold - e1)/rewardThreshold);
+        r1= max(0,(abs(rewardThreshold - e1))/rewardThreshold);
         
         %RL for the second element of the output
         e2 = (1/2)*((tTarget(2))-Z(2)*y(2))^2;
-        r2= max(0,(rewardThreshold - e2)/rewardThreshold);
+        r2= max(0,(abs(rewardThreshold - e2))/rewardThreshold);
         
         for k = 1:mOutput
             deltaW1= (r1-expectR1)*((A1-mu1)/omega1);  %RL W
@@ -98,6 +98,7 @@ for j = 1:T
             deltaV1 = (r1-expectR1); %RL V
             V1(k)=V1(k)+beta1*deltaV1*tTarget(k);
             
+           
             
         end
         
