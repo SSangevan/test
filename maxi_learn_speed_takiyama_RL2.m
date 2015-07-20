@@ -67,7 +67,7 @@ for j = 1:T
         O1=[(1-expectR1)/2 0];
         omega1=max(O1);
         A1=normrnd(mu1,omega1);
-        y(1)=1./(1+ exp(-A1));
+        y(1)=(2./(1+ exp(-A1)))-1;
         
         
         mu2=W1*tTarget+Wthres2;   %first element of Y2
@@ -75,7 +75,7 @@ for j = 1:T
         O2=[(1-expectR2)/2 0];
         omega2=max(O2);
         A2=normrnd(mu2,omega2);
-        y(2)=1./(1+ exp(-A2));
+        y(2)=(2./(1+ exp(-A2)))-1;
         
         %determination of X the output
         U1=Z*y(1);
@@ -84,11 +84,11 @@ for j = 1:T
         xOutput(2)=U2(2);
         %RL for the first element of the output
         e1 = (1/2)*((tTarget(1))-Z(1)*y(1))^2;
-        r1= max(0,(abs(rewardThreshold - e1))/rewardThreshold);
+        r1= max(0,(rewardThreshold - (e1/2))/rewardThreshold);
         
         %RL for the second element of the output
         e2 = (1/2)*((tTarget(2))-Z(2)*y(2))^2;
-        r2= max(0,(abs(rewardThreshold - e2))/rewardThreshold);
+        r2= max(0,(rewardThreshold - (e2/2))/rewardThreshold);
         
         for k = 1:mOutput
             deltaW1= (r1-expectR1)*((A1-mu1)/omega1);  %RL W
