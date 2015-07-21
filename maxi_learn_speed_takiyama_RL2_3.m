@@ -1,4 +1,4 @@
-function [] = maxi_learn_speed_takiyama_RL2_2()
+function [] = maxi_learn_speed_takiyama_RL2_3()
 % Reinforcement learning for force production of a two joint planar arm
 % theta: direction of desired force (degrees)
 
@@ -48,7 +48,9 @@ xOutput = [0,0]';
 U1 = [0,0]';
 U2 = [0,0]';
 B=1;
-rewardThreshold=1;
+rewardThreshold=2;
+rewardThreshold1=2*nInput;
+rewardThreshold=4*nInput-4;
 alpha1=1/4;
 beta1=1/2;
 alpha2=1/4;
@@ -95,9 +97,11 @@ for j = 1:T
         
         %RL for the second element of the output
         % e2 = (1/2)*((tTarget(2))-Z(2)*y(2))^2;
-        
-        r= max(0,(rewardThreshold - e/(2*nInput))/rewardThreshold);
-        
+        if e<=1
+            r= max(0,(rewardThreshold - e)/rewardThreshold);
+        else
+            r= max(0,(rewardThreshold1 - e)/rewardThreshold2);
+        end
         r1 = r*ones(nInput,1);
         for p = 1:nInput
             for k = 1:mOutput
@@ -119,4 +123,3 @@ for j = 1:T
     % EG(i)=(1/2)*(tTarget-xOutput)'*(tTarget-xOutput);
     
 end
-
