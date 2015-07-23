@@ -49,7 +49,7 @@ xOutput = [0,0]';
 
 rewardThreshold=2;
 rewardThreshold1=2*nInput;
-rewardThreshold=4*nInput-4;
+rewardThreshold2=4*nInput-4;
 alpha1=1/4;
 beta1=1/2;
 alpha2=1/4;
@@ -63,7 +63,7 @@ for k = 2:nInput
 Z(:,k)=Y;
 end
 
-
+ 
 for j = 1:T
     desTheta = thetak(randomOrder(j));
     tTarget = desMagnitude*[cos(desTheta);sin(desTheta)] %t,target position
