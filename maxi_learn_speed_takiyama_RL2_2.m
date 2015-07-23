@@ -15,15 +15,15 @@ phiInput = 30; % angle of perturbation
 
 nTrials = 20000;
 phi = zeros(1,nInput);
-v = zeros(1,nTrials);
+
 
 % Connectivity (weight) matrix (W)
 Z=zeros(mOutput, nInput);
 %E=zeros(1,nTrials); %Faux, car E un reel
 W1 = rand(nInput, mOutput);
-W2= rand(nInput, mOutput);
+
 V1 = rand(nInput, mOutput);
-V2= rand(nInput, mOutput);
+
 Wthres1 = zeros(nInput,1);
 Vthres1= zeros(nInput,1);
 expectR1= zeros(nInput,1);
@@ -31,8 +31,7 @@ O1= zeros(nInput,1);
 A1= zeros(nInput,1);
 y= zeros(nInput,1);
 omega1= zeros(nInput,1);
-Wthres2 = zeros(nInput,1);
-Vthres2= zeros(nInput,1);
+
 deltaW1= zeros(nInput,1);
 deltaV1= zeros(nInput,1);
 %R = [cos(phiInput),-sin(phiInput);sin(phiInput),cos(phiInput)];
@@ -45,21 +44,18 @@ lambda= NaN(1,mOutput);
 desMagnitude=1;
 %xOutput = zeros(mOutput,1);
 xOutput = [0,0]';
-U1 = [0,0]';
-U2 = [0,0]';
-B=1;
+
 rewardThreshold=1;
 alpha1=1/4;
 beta1=1/2;
-alpha2=1/4;
-beta2=1/2;
+
 E = zeros(nTrials,1);
 r1=zeros(nInput,1);
-%for k = 2:nInput
-%   phi(k)= rand;    % !!!!!Angle!!!this phi concerns about tge foce direction(FD)
-%  Y = (1/nInput)*[cos(phi(k)*2*pi);sin(phi(k)*2*pi)]';
-% Z(:,k)=Y;
-%end
+for k = 2:nInput
+  phi(k)= rand;    % !!!!!Angle!!!this phi concerns about tge foce direction(FD)
+ Y = (1/nInput)*[cos(phi(k)*2*pi);sin(phi(k)*2*pi)]';
+ Z(:,k)=Y;
+end
 
 
 for j = 1:T
@@ -78,23 +74,15 @@ for j = 1:T
             y(p)=(2./(1+ exp(-A1(p))))-1;
             
             
-            %      mu2=W1*tTarget+Wthres2;   %first element of Y2
-            %    expectR2=V1*tTarget+Vthres2;
-            %     O2=[(1-expectR2)/2 0];
-            %     omega2=max(O2);
-            %     A2=normrnd(mu2,omega2);
-            %     y(2)=(2./(1+ exp(-A2)))-1;
+            
         end
         %determination of X the output
         xOutput=Z*y;
-        % xOutput(1)=U1(1);
-        % U2=Z*y(2);
-        % xOutput(2)=U2(2);
-        %RL for the first element of the output
+       
+        %RL for the output
         e = (1/2)*(tTarget-xOutput)'*(tTarget-xOutput);
         
-        %RL for the second element of the output
-        % e2 = (1/2)*((tTarget(2))-Z(2)*y(2))^2;
+        
         
         r= max(0,(rewardThreshold - e/(2*nInput))/rewardThreshold);
         
